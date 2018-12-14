@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`card that it matches an existing snapshot 1`] = `
+<div
+  className="card"
+>
+  <div
+    className="card__content"
+  >
+    <p
+      className="card__content-text"
+    >
+      Doggo
+      <span
+        className="card__content-emoji"
+      >
+          
+        ❤️
+      </span>
+    </p>
+  </div>
+</div>
+`;
