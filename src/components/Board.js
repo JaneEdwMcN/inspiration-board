@@ -22,7 +22,7 @@ class Board extends Component {
     .then((response) => {
       const cards = response.data.map((card) => {
         const newCard = {
-          ...card.card,
+          ...card.card
         }
         return newCard
       })
@@ -38,11 +38,30 @@ class Board extends Component {
     });
   }
 
+  deleteCard = (id) => {
+    axios.delete(`https://inspiration-board.herokuapp.com/cards/${id}`)
+    let updatedCards = this.state.cards
+
+    updatedCards.forEach((card, index) => {
+      if (id === card.id) {
+        updatedCards.splice(index, 1);
+      }
+    });
+
+    this.setState({
+      cards: updatedCards,
+    })
+  }
+
   makeCardList = (cards) => {
     const cardList = cards.map((card) => {
-      return <Card key={card.id}
+      return <div key={card.id} className="card">
+      <Card
+      id={card.id}
       text={card.text}
-      emoji={card.emoji}/>
+      emoji={card.emoji}
+      deleteCardCallback={this.deleteCard}/>
+      </div>
     });
     return cardList
   }
