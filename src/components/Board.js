@@ -74,13 +74,15 @@ class Board extends Component {
   addCard = (newCard) => {
     const addCardUrl = `https://inspiration-board.herokuapp.com/boards/${this.props.boardName}/cards?text=${newCard.text}&emoji=${newCard.emoji}`
     axios.post(addCardUrl)
-    // add .then with response?/
-    newCard.id = this.state.cards[this.state.cards.length - 1] + 1
-    const { cards } = this.state
-    cards.push(newCard)
-    this.setState({
-      cards: cards
+    .then((response) => {
+      const newCardFromAPI = response.data.card
+      const { cards } = this.state
+      cards.push(newCardFromAPI)
+      this.setState({
+        cards: cards
+      })
     })
+
   }
 
   render() {
