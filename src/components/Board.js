@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 
 import './Board.css';
 import Card from './Card';
-// import NewCardForm from './NewCardForm';
+import NewCardForm from './NewCardForm';
 // import CARD_DATA from '../data/card-data.json';
 
 class Board extends Component {
@@ -20,11 +20,16 @@ class Board extends Component {
   componentDidMount() {
     axios.get(this.props.url + this.props.boardName + "/cards")
     .then((response) => {
+
       const cards = response.data.map((card) => {
         const newCard = {
           ...card.card
         }
         return newCard
+      })
+
+      cards.sort(function(a, b){
+        return a.id-b.id
       })
 
       this.setState({
@@ -66,18 +71,33 @@ class Board extends Component {
     return cardList
   }
 
+  addCard = (newCard) => {
+    const addCardUrl = `https://inspiration-board.herokuapp.com/boards/${this.props.boardName}/cards?text=${newCard.text}&emoji=${newCard.emoji}`
+    axios.post(addCardUrl)
+    // add .then with response?/
+    newCard.id = this.state.cards[this.state.cards.length - 1] + 1
+    const { cards } = this.state
+    cards.push(newCard)
+    this.setState({
+      cards: cards
+    })
+  }
 
   render() {
     return (
       <div className="board">
       { this.state.cards !== [] && this.makeCardList(this.state.cards)}
+      <section className="new-card-form">
+      <NewCardForm addCardCallback={this.addCard}/>
+      </section>
       </div>
     )
   }
 }
 
 Board.propTypes = {
-
+  url: PropTypes.string.isRequired,
+  boardName: PropTypes.string.isRequired
 };
 
 export default Board;

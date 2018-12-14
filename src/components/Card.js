@@ -8,7 +8,7 @@ class Card extends Component {
   onClickDeleteCard = (event) => {
     this.props.deleteCardCallback(this.props.id);
   }
-  
+
   render() {
 
     return (
@@ -24,7 +24,10 @@ class Card extends Component {
 }
 
 Card.propTypes = {
-
+  deleteCardCallback: PropTypes.func.isRequired,
+  id: PropTypes.number.isRequired,
+  text: PropTypes.string.isRequired,
+  emoji: PropTypes.string.isRequired
 };
 
 export default Card;
